@@ -118,7 +118,7 @@
 
             <div class="mb-3">
     <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="الاسم" />
-    <a id="downloadBtn" class="btn btn-secondary btn-lg w-100 mt-3" href="#" download>تحميل النموذج</a>            
+    <button id="downloadBtn" class="btn btn-secondary btn-lg w-100 mt-3">تحميل النموذج</button>            
 </div>
 
 <a id="downloadBtn" class="btn btn-secondary btn-lg w-100">تحميل النموذج</a>
@@ -134,18 +134,17 @@
         if (loading) loading.remove();
     }, 2300);
 
-    function setActive(el) {
-    const tempInput = document.getElementById('temp');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const selectedImage = el.getAttribute('data-temp');
+   document.getElementById('downloadBtn').addEventListener('click', function () {
+    const selectedImage = document.getElementById('temp').value;
+    const imageUrl = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
 
-    document.querySelectorAll('.temp').forEach(img => {
-        img.classList.remove('active', 'border-danger');
-    });
-
-    el.classList.add('active', 'border-danger');
-    tempInput.value = selectedImage;
-
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = selectedImage;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
     // ✅ Use full GitHub Pages URL
     const imagePath = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
     downloadBtn.href = imagePath;
