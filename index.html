@@ -134,17 +134,23 @@
         if (loading) loading.remove();
     }, 2300);
 
-   document.getElementById('downloadBtn').addEventListener('click', function () {
-    const selectedImage = document.getElementById('temp').value;
-    const imageUrl = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
+function setActive(el) {
+    const tempInput = document.getElementById('temp');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const selectedImage = el.getAttribute('data-temp');
 
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = selectedImage;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-});
+    document.querySelectorAll('.temp').forEach(img => {
+        img.classList.remove('active', 'border-danger');
+    });
+
+    el.classList.add('active', 'border-danger');
+    tempInput.value = selectedImage;
+
+    // ✅ Use full GitHub Pages URL
+    const imagePath = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
+    downloadBtn.href = imagePath;
+    downloadBtn.setAttribute('download', selectedImage);
+}
     // ✅ Use full GitHub Pages URL
     const imagePath = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
     downloadBtn.href = imagePath;
