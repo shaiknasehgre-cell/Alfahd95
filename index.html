@@ -128,7 +128,7 @@
         </section>
     </div>
 
-  <script>
+<script>
     setTimeout(() => {
         const loading = document.getElementById('loading');
         if (loading) loading.remove();
@@ -152,12 +152,20 @@
         downloadBtn.setAttribute('download', selectedImage);
     }
 
-    // Optional: Validate name before download
-    document.getElementById('downloadBtn').addEventListener('click', function (e) {
-        const name = document.getElementById('nameInput')?.value?.trim();
+    // Optional: Auto-download when button is clicked
+    document.getElementById('downloadBtn').addEventListener('click', function () {
+        const name = document.getElementById('nameInput').value.trim();
         if (!name) {
-            e.preventDefault();
-            alert("يرجى إدخال الاسم قبل تحميل النموذج");
+            alert("يرجى إدخال الاسم قبل التحميل");
+            return;
         }
+
+        const selectedImage = document.getElementById('temp').value;
+        const link = document.createElement('a');
+        link.href = `./images/${selectedImage}`;
+        link.download = selectedImage;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     });
 </script>
