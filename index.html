@@ -135,22 +135,22 @@
     }, 2300);
 
     function setActive(el) {
-        const tempInput = document.getElementById('temp');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const selectedImage = el.getAttribute('data-temp');
+    const tempInput = document.getElementById('temp');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const selectedImage = el.getAttribute('data-temp');
 
-        document.querySelectorAll('.temp').forEach(img => {
-            img.classList.remove('active', 'border-danger');
-        });
+    document.querySelectorAll('.temp').forEach(img => {
+        img.classList.remove('active', 'border-danger');
+    });
 
-        el.classList.add('active', 'border-danger');
-        tempInput.value = selectedImage;
+    el.classList.add('active', 'border-danger');
+    tempInput.value = selectedImage;
 
-        // Update download button
-      const imagePath = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
-downloadBtn.href = imagePath;
-downloadBtn.setAttribute('download', selectedImage);
-    }
+    // ✅ Use full GitHub Pages URL
+    const imagePath = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
+    downloadBtn.href = imagePath;
+    downloadBtn.setAttribute('download', selectedImage);
+}
 
     // Optional: Validate name before download
     document.getElementById('downloadBtn').addEventListener('click', function (e) {
