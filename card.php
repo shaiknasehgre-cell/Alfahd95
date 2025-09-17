@@ -20,9 +20,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $color = imagecolorallocate($image, 0, 0, 0); // Black color (RGB: 0, 0, 0)
             
             // Set font size and position for the text
-            $fontSize = 20; // Adjust as needed
-            $xPosition = 120; // Adjust based on your template
-            $yPosition = 380; // Adjust based on your template
+         <?php
+// Ensure the form was submitted with a POST request
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 1. GET THE TEMPLATE AND USERNAME
+    $templateName = $_POST['temp'];
+    $userName = $_POST['str_1'];
+
+    // 2. PASTE THE CODE BELOW THIS LINE
+    // Adjust coordinates based on the selected template
+    if ($templateName === 'temp1.jpg') {
+        $xPosition = 120;
+        $yPosition = 380;
+    } elseif ($templateName === 'temp2.jpg') {
+        $xPosition = 150;
+        $yPosition = 400;
+    } elseif ($templateName === 'temp3.jpg') {
+        $xPosition = 100;
+        $yPosition = 350;
+    } elseif ($templateName === 'temp4.jpg') {
+        $xPosition = 180;
+        $yPosition = 420;
+    } else {
+        // Fallback coordinates if no matching template is found
+        $xPosition = 120;
+        $yPosition = 380;
+    }
+    
+    // ... rest of your code
+}
+?>
+
+            // Add the user's name to the image
+            imagettftext($image, 20, 0, $xPosition, $yPosition, $color, $font, $userName);
+
+            // ... rest of the code for headers and output
+
+        } else {
+            echo "Error: Could not load the image template.";
+        }
+    } else {
+        echo "Error: Template file not found.";
+    }
+} else {
+    echo "Access Denied: This page is for form submissions only.";
+}
+?>
 
             // Add the user's name to the image
             imagettftext($image, $fontSize, 0, $xPosition, $yPosition, $color, $font, $userName);
