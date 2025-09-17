@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>بطاقة الفهد الشخصية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Amiri', serif;
+      background-color: #f0f0f0;
       text-align: center;
-      background-color: #f9f9f9;
       padding: 20px;
     }
     h2 {
       color: #333;
+      margin-bottom: 10px;
     }
-    input, button {
+    input, select, button {
       padding: 10px;
       font-size: 18px;
       margin: 10px;
@@ -29,34 +31,63 @@
 </head>
 <body>
 
-  <h2>🖋️ أدخل اسمك لإنشاء بطاقة الفهد</h2>
-  <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
-  <button onclick="generateCard()">تحميل البطاقة</button>
+  <h2>🖋️ أدخل اسمك واختر النموذج لإنشاء بطاقة الفهد</h2>
 
-  <canvas id="myCanvas" width="600" height="400"></canvas>
+  <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
+  <br>
+  <select id="templateSelect">
+    <option value="temp1.jpg">نموذج 1</option>
+    <option value="temp2.jpg">نموذج 2</option>
+    <option value="temp3.jpg">نموذج 3</option>
+  </select>
+  <br>
+  <button onclick="generateCard()">تحميل البطاقة</button>
+  <button onclick="printCard()">طباعة البطاقة</button>
+
+  <canvas id="myCanvas" width="800" height="600"></canvas>
 
   <script>
     function generateCard() {
       const canvas = document.getElementById('myCanvas');
       const ctx = canvas.getContext('2d');
       const name = document.getElementById('nameInput').value.trim();
+      const selectedTemplate = document.getElementById('templateSelect').value;
 
-      const img = new Image();
-      img.onload = function() {
+      const background = new Image();
+      background.onload = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-        ctx.font = "28px Arial";
+        // Add name
+        ctx.font = "36px 'Amiri', serif";
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
-        ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height - 40);
+        ctx.direction = "rtl";
+        ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height - 60);
 
-        const link = document.createElement('a');
-        link.download = 'alfahd-card.png';
-        link.href = canvas.toDataURL();
-        link.click();
+        // Add logo
+        const logo = new Image();
+        logo.onload = function() {
+          ctx.drawImage(logo, canvas.width - 120, 20, 100, 100); // Adjust as needed
+
+          // Trigger download
+          const link = document.createElement('a');
+          link.download = 'alfahd-card.png';
+          link.href = canvas.toDataURL();
+          link.click();
+        };
+        logo.src = 'images/logo.png';
       };
-      img.src = 'images/temp1.jpg'; // تأكد من وجود الصورة داخل مجلد images
+      background.src = 'images/' + selectedTemplate;
+    }
+
+    function printCard() {
+      const canvas = document.getElementById('myCanvas');
+      const win = window.open();
+      win.document.write('<img src="' + canvas.toDataURL() + '" style="width:100%">');
+      win.document.close();
+      win.focus();
+      win.print();
     }
   </script>
 
