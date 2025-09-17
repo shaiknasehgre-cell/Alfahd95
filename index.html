@@ -15,6 +15,22 @@
       color: #333;
       margin-bottom: 10px;
     }
+    .logo {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      justify-items: center;
+      margin-bottom: 20px;
+    }
+    .grid img {
+      width: 300px;
+      height: auto;
+      border: 1px solid #ccc;
+    }
     input, select, button {
       padding: 10px;
       font-size: 18px;
@@ -27,10 +43,20 @@
       margin-top: 20px;
       max-width: 100%;
     }
+    .download-btn {
+      background-color: #28a745; /* Green */
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .download-btn:hover {
+      background-color: #218838;
+    }
   </style>
 </head>
 <body>
 
+  <img src="images/logo.png" alt="Logo" class="logo">
   <h2>🖋️ أدخل اسمك واختر النموذج لإنشاء بطاقة الفهد</h2>
 
   <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
@@ -39,10 +65,17 @@
     <option value="temp1.jpg">نموذج 1</option>
     <option value="temp2.jpg">نموذج 2</option>
     <option value="temp3.jpg">نموذج 3</option>
+    <option value="temp4.jpg">نموذج 4</option>
   </select>
   <br>
-  <button onclick="generateCard()">تحميل البطاقة</button>
-  <button onclick="printCard()">طباعة البطاقة</button>
+  <button class="download-btn" onclick="generateCard()">تحميل البطاقة</button>
+
+  <div class="grid">
+    <img src="images/temp1.jpg" alt="Template 1">
+    <img src="images/temp2.jpg" alt="Template 2">
+    <img src="images/temp3.jpg" alt="Template 3">
+    <img src="images/temp4.jpg" alt="Template 4">
+  </div>
 
   <canvas id="myCanvas" width="800" height="600"></canvas>
 
@@ -79,15 +112,6 @@
         logo.src = 'images/logo.png';
       };
       background.src = 'images/' + selectedTemplate;
-    }
-
-    function printCard() {
-      const canvas = document.getElementById('myCanvas');
-      const win = window.open();
-      win.document.write('<img src="' + canvas.toDataURL() + '" style="width:100%">');
-      win.document.close();
-      win.focus();
-      win.print();
     }
   </script>
 
