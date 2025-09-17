@@ -118,12 +118,26 @@
 
             <form action="card.php" method="POST" novalidate>
                 <input type="hidden" name="temp" id="temp" value="temp1.jpg" />
-                <div class="mb-3">
-                    <input type="text" name="str_1" class="form-control form-control-lg" placeholder="الاسم" required />
-                    <canvas id="cardCanvas" width="600" height="400" style="display:none;"></canvas>
-                    <button id="generateBtn" class="btn btn-success btn-lg w-100 mt-3">إنشاء البطاقة وتحميلها</button>
-                </div>
-               <button id="downloadBtn" class="btn btn-secondary btn-lg w-100 mt-3">تحميل النموذج</button>
+                <!-- Hidden input to store selected image -->
+<input type="hidden" id="temp" value="temp1.jpg" />
+
+<!-- Name input -->
+<div class="mb-3">
+  <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="الاسم" />
+</div>
+
+<!-- Image selection -->
+<div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+  <img src="./images/temp1.jpg" class="img-thumbnail temp border-4" data-temp="temp1.jpg" style="width: 170px;" onclick="setActive(this)" />
+  <img src="./images/temp2.jpg" class="img-thumbnail temp border-4" data-temp="temp2.jpg" style="width: 170px;" onclick="setActive(this)" />
+  <img src="./images/temp3.jpg" class="img-thumbnail temp border-4" data-temp="temp3.jpg" style="width: 170px;" onclick="setActive(this)" />
+</div>
+
+<!-- Canvas for drawing -->
+<canvas id="cardCanvas" width="600" height="400" style="display:none;"></canvas>
+
+<!-- Button to generate and download -->
+<button id="generateBtn" class="btn btn-success btn-lg w-100 mt-3">إنشاء البطاقة وتحميلها</button>
             </form>
 
             <p class="mt-4 text-muted" style="font-size: 0.85rem;">
@@ -132,45 +146,51 @@
         </section>
     </div>
 
-  document.getElementById('generateBtn').addEventListener('click', function () {
-    const canvas = document.getElementById('cardCanvas');
-    const ctx = canvas.getContext('2d');
-    const name = document.getElementById('nameInput').value.trim();
-    const selectedImage = document.getElementById('temp').value;
-    const imageUrl = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
+ function setActive(el) {
+  const tempInput = document.getElementById('temp');
+  const selectedImage = el.getAttribute('data-temp');
 
-    if (!name) {
-        alert("يرجى إدخال الاسم");
-        return;
-    }
+  document.querySelectorAll('.temp').forEach(img => {
+    img.classList.remove('active', 'border-danger');
+  });
 
-    const img = new Image();
-    img.crossOrigin = "anonymous"; // Important for GitHub-hosted images
-    img.onload = function () {
-        // Resize canvas to match image
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.style.display = 'block';
+  el.classList.add('active', 'border-danger');
+  tempInput.value = selectedImage;
+}
 
-        // Draw image
-        ctx.drawImage(img, 0, 0);
+document.getElementById('generateBtn').addEventListener('click', function () {
+  const canvas = document.getElementById('cardCanvas');
+  const ctx = canvas.getContext('2d');
+  const name = document.getElementById('nameInput').value.trim();
+  const selectedImage = document.getElementById('temp').value;
+  const imageUrl = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
 
-        // Draw name
-        ctx.font = "bold 36px 'Noto Kufi Arabic', sans-serif";
-        ctx.fillStyle = "#dc3545";
-        ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, canvas.height - 50);
+  if (!name) {
+    alert("يرجى إدخال الاسم");
+    return;
+  }
 
-        // Trigger download
-        const link = document.createElement('a');
-        link.download = "بطاقة_" + name + ".png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-    };
-    img.onerror = function () {
-        alert("تعذر تحميل الصورة. تأكد من وجود الملف الصحيح.");
-    };
-    img.src = imageUrl;
+  const img = new Image();
+  img.crossOrigin = "anonymous";
+  img.onload = function () {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    canvas.style.display = 'block';
+
+    ctx.drawImage(img, 0, 0);
+
+    ctx.font = "bold 36px 'Noto Kufi Arabic', sans-serif";
+    ctx.fillStyle = "#dc3545";
+    ctx.textAlign = "center";
+    ctx.fillText(name, canvas.width / 2, canvas.height - 50);
+
+    const link = document.createElement('a');
+    link.download = "بطاقة_" + name + ".png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  };
+  img.onerror = function () {
+    alert("تعذر تحميل الصورة. تأكد من وجود الملف الصحيح.");
+  };
+  img.src = imageUrl;
 });
-
-</html>
