@@ -15,10 +15,6 @@
       color: #333;
       margin-bottom: 10px;
     }
-    .logo {
-      width: 120px;
-      margin-bottom: 20px;
-    }
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -37,7 +33,7 @@
       transform: scale(1.05);
       border-color: #28a745;
     }
-    input, button {
+    input {
       padding: 10px;
       font-size: 18px;
       margin: 10px;
@@ -50,10 +46,13 @@
       max-width: 100%;
     }
     .download-btn {
-      background-color: #28a745; /* Green */
+      background-color: #28a745;
       color: white;
       border: none;
       cursor: pointer;
+      padding: 12px 24px;
+      font-size: 18px;
+      margin-top: 30px;
     }
     .download-btn:hover {
       background-color: #218838;
@@ -62,12 +61,8 @@
 </head>
 <body>
 
-  <img src="images/logo.png" alt="Logo" class="logo">
   <h2>🖋️ أدخل اسمك ثم اختر النموذج لإنشاء البطاقة</h2>
-
-  <input type="text" id="nameInput" placeholder="text" />
-  <br>
-  <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
+  <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
 
   <div class="grid">
     <img src="images/temp1.jpg" alt="Template 1" onclick="selectTemplate('temp1.jpg')">
@@ -77,6 +72,8 @@
   </div>
 
   <canvas id="myCanvas" width="800" height="600"></canvas>
+
+  <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
 
   <script>
     let selectedTemplate = null;
@@ -102,7 +99,7 @@
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
         ctx.direction = "rtl";
-        ctx.fillText(name || "txt", canvas.width / 2, canvas.height - 60);
+        ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height - 60);
       };
       background.src = 'images/' + selectedTemplate;
     }
@@ -114,6 +111,11 @@
       link.href = canvas.toDataURL();
       link.click();
     }
+
+    // Redraw card when user types name
+    document.getElementById('nameInput').addEventListener('input', () => {
+      if (selectedTemplate) drawCard();
+    });
   </script>
 
 </body>
