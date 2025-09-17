@@ -120,6 +120,8 @@
                 <input type="hidden" name="temp" id="temp" value="temp1.jpg" />
                 <div class="mb-3">
                     <input type="text" name="str_1" class="form-control form-control-lg" placeholder="الاسم" required />
+                    <canvas id="cardCanvas" width="600" height="400" style="display:none;"></canvas>
+                    <button id="generateBtn" class="btn btn-success btn-lg w-100 mt-3">إنشاء البطاقة وتحميلها</button>
                 </div>
                <button id="downloadBtn" class="btn btn-secondary btn-lg w-100 mt-3">تحميل النموذج</button>
             </form>
@@ -130,23 +132,45 @@
         </section>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script>
-        setTimeout(() => {
-            const loading = document.getElementById('loading');
-            if (loading) loading.remove();
-        }, 2300);
+  document.getElementById('generateBtn').addEventListener('click', function () {
+    const canvas = document.getElementById('cardCanvas');
+    const ctx = canvas.getContext('2d');
+    const name = document.getElementById('nameInput').value.trim();
+    const selectedImage = document.getElementById('temp').value;
+    const imageUrl = `https://shaiknasehgre-cell.github.io/Alfahd95/images/${selectedImage}`;
 
-        function setActive(el) {
-            const tempInput = document.getElementById('temp');
-            document.querySelectorAll('.temp').forEach(img => {
-                img.classList.remove('active', 'border-danger');
-            });
-            el.classList.add('active', 'border-danger');
-            tempInput.value = el.getAttribute('data-temp');
-        }
-    </script>
+    if (!name) {
+        alert("يرجى إدخال الاسم");
+        return;
+    }
 
-</body>
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // Important for GitHub-hosted images
+    img.onload = function () {
+        // Resize canvas to match image
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.style.display = 'block';
+
+        // Draw image
+        ctx.drawImage(img, 0, 0);
+
+        // Draw name
+        ctx.font = "bold 36px 'Noto Kufi Arabic', sans-serif";
+        ctx.fillStyle = "#dc3545";
+        ctx.textAlign = "center";
+        ctx.fillText(name, canvas.width / 2, canvas.height - 50);
+
+        // Trigger download
+        const link = document.createElement('a');
+        link.download = "بطاقة_" + name + ".png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    };
+    img.onerror = function () {
+        alert("تعذر تحميل الصورة. تأكد من وجود الملف الصحيح.");
+    };
+    img.src = imageUrl;
+});
 
 </html>
