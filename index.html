@@ -29,9 +29,15 @@
     .grid img {
       width: 300px;
       height: auto;
-      border: 1px solid #ccc;
+      border: 2px solid #ccc;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
-    input, select, button {
+    .grid img:hover {
+      transform: scale(1.05);
+      border-color: #28a745;
+    }
+    input, button {
       padding: 10px;
       font-size: 18px;
       margin: 10px;
@@ -57,61 +63,56 @@
 <body>
 
   <img src="images/logo.png" alt="Logo" class="logo">
-  <h2>🖋️ أدخل اسمك واختر النموذج لإنشاء بطاقة الفهد</h2>
+  <h2>🖋️ أدخل اسمك ثم اختر النموذج لإنشاء البطاقة</h2>
 
   <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
   <br>
-  <select id="templateSelect">
-    <option value="temp1.jpg">نموذج 1</option>
-    <option value="temp2.jpg">نموذج 2</option>
-    <option value="temp3.jpg">نموذج 3</option>
-    <option value="temp4.jpg">نموذج 4</option>
-  </select>
-  <br>
-  <button class="download-btn" onclick="generateCard()">تحميل البطاقة</button>
+  <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
 
   <div class="grid">
-    <img src="images/temp1.jpg" alt="Template 1">
-    <img src="images/temp2.jpg" alt="Template 2">
-    <img src="images/temp3.jpg" alt="Template 3">
-    <img src="images/temp4.jpg" alt="Template 4">
+    <img src="images/temp1.jpg" alt="Template 1" onclick="selectTemplate('temp1.jpg')">
+    <img src="images/temp2.jpg" alt="Template 2" onclick="selectTemplate('temp2.jpg')">
+    <img src="images/temp3.jpg" alt="Template 3" onclick="selectTemplate('temp3.jpg')">
+    <img src="images/temp4.jpg" alt="Template 4" onclick="selectTemplate('temp4.jpg')">
   </div>
 
   <canvas id="myCanvas" width="800" height="600"></canvas>
 
   <script>
-    function generateCard() {
+    let selectedTemplate = null;
+
+    function selectTemplate(templateName) {
+      selectedTemplate = templateName;
+      drawCard();
+    }
+
+    function drawCard() {
+      if (!selectedTemplate) return;
+
       const canvas = document.getElementById('myCanvas');
       const ctx = canvas.getContext('2d');
       const name = document.getElementById('nameInput').value.trim();
-      const selectedTemplate = document.getElementById('templateSelect').value;
 
       const background = new Image();
       background.onload = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-        // Add name
         ctx.font = "36px 'Amiri', serif";
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
         ctx.direction = "rtl";
         ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height - 60);
-
-        // Add logo
-        const logo = new Image();
-        logo.onload = function() {
-          ctx.drawImage(logo, canvas.width - 120, 20, 100, 100); // Adjust as needed
-
-          // Trigger download
-          const link = document.createElement('a');
-          link.download = 'alfahd-card.png';
-          link.href = canvas.toDataURL();
-          link.click();
-        };
-        logo.src = 'images/logo.png';
       };
       background.src = 'images/' + selectedTemplate;
+    }
+
+    function downloadCard() {
+      const canvas = document.getElementById('myCanvas');
+      const link = document.createElement('a');
+      link.download = 'alfahd-card.png';
+      link.href = canvas.toDataURL();
+      link.click();
     }
   </script>
 
