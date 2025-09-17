@@ -65,7 +65,7 @@
   <img src="images/logo.png" alt="Logo" class="logo">
   <h2>🖋️ أدخل اسمك ثم اختر النموذج لإنشاء البطاقة</h2>
 
-  <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
+  <input type="text" id="nameInput" placeholder="text" />
   <br>
   <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
 
@@ -102,7 +102,7 @@
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
         ctx.direction = "rtl";
-        ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height - 60);
+        ctx.fillText(name || "txt", canvas.width / 2, canvas.height - 60);
       };
       background.src = 'images/' + selectedTemplate;
     }
