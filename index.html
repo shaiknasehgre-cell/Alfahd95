@@ -104,11 +104,13 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(background, 0, 0);
 
-        ctx.font = "36px 'Amiri', serif";
+        ctx.font = "bold 36px 'Amiri', serif";
+        ctx.shadowColor = "#000";
+        ctx.shadowBlur = 4;
         ctx.fillStyle = "#8B5E3C";
         ctx.textAlign = "center";
         ctx.direction = "rtl";
-        ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height * 0.72);
+        ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height * 0.92);
 
         canvasReady = true;
       };
