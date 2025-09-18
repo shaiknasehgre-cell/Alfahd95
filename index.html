@@ -113,21 +113,16 @@ ctx.direction = "rtl";
 
 // 🎯 Exact coordinates for each template
 let x = canvas.width / 2;
-let y = 1645; // Default Y — adjust based on actual image
+let y = 1655; // Default Y — adjust based on actual image
 
 switch (selectedTemplate) {
-  case 'temp1.jpg': y = 1645; break;
-  case 'temp2.jpg': y = 1635; break;
-  case 'temp3.jpg': y = 1638; break;
-  case 'temp4.jpg': y = 1646; break;
+  case 'temp1.jpg': y = 1655; break;
+  case 'temp2.jpg': y = 1645; break;
+  case 'temp3.jpg': y = 1648; break;
+  case 'temp4.jpg': y = 1656; break;
 }
 
 ctx.fillText(name || "اسمك هنا", x, y);
-        ctx.strokeStyle = "red";
-ctx.beginPath();
-ctx.moveTo(0, y);
-ctx.lineTo(canvas.width, y);
-ctx.stroke();
         canvasReady = true;
       };
 
