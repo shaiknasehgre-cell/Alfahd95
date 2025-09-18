@@ -15,13 +15,13 @@
       color: #333;
       margin-bottom: 10px;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      justify-items: center;
-      margin-bottom: 20px;
-    }
+   .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px; /* Reduced from 15px */
+  justify-items: center;
+  margin-bottom: 20px;
+}
     .grid img {
       width: 300px;
       height: auto;
@@ -75,49 +75,55 @@
   <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
 
   <script>
-  let selectedTemplate = null;
+ let selectedTemplate = null;
 
-  function selectTemplate(templateName) {
-    selectedTemplate = templateName;
-    drawCard();
-  }
+function selectTemplate(templateName) {
+  selectedTemplate = templateName;
+  drawCard();
+}
 
-  function drawCard() {
-    if (!selectedTemplate) return;
+function drawCard() {
+  if (!selectedTemplate) return;
 
-    const canvas = document.getElementById('myCanvas');
-    const ctx = canvas.getContext('2d');
-    const name = document.getElementById('nameInput').value.trim();
+  const canvas = document.getElementById('myCanvas');
+  const ctx = canvas.getContext('2d');
+  const name = document.getElementById('nameInput').value.trim();
 
-    const background = new Image();
-    background.onload = function() {
-      // Set canvas size to match image
-      canvas.width = background.width;
-      canvas.height = background.height;
+  const background = new Image();
+  background.onload = function() {
+    // Match canvas size to image
+    canvas.width = background.width;
+    canvas.height = background.height;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(background, 0, 0);
+    // Draw background image
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(background, 0, 0);
 
-      // Draw name in fixed position (adjust x/y as needed)
-      ctx.font = "36px 'Amiri', serif";
-      ctx.fillStyle = "#000";
-      ctx.textAlign = "center";
-      ctx.direction = "rtl";
-      ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height - 80); // Adjust Y to match your marked area
-    };
-    background.src = 'images/' + selectedTemplate;
-  }
+    // Draw name in greeting area
+    ctx.font = "36px 'Amiri', serif";
+    ctx.fillStyle = "#8B5E3C"; // Custom greeting color
+    ctx.textAlign = "center";
+    ctx.direction = "rtl";
 
-  function downloadCard() {
-    const canvas = document.getElementById('myCanvas');
-    const link = document.createElement('a');
-    link.download = 'alfahd-card.png';
-    link.href = canvas.toDataURL();
-    link.click();
-  }
+    // Adjust position based on your marked area
+    ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height * 0.72);
+  };
 
-  // Redraw card when user types name
-  document.getElementById('nameInput').addEventListener('input', () => {
-    if (selectedTemplate) drawCard();
-  });
+  background.src = 'images/' + selectedTemplate;
+}
+
+function downloadCard() {
+  const canvas = document.getElementById('myCanvas');
+  const link = document.createElement('a');
+  link.download = 'alfahd-card.png';
+  link.href = canvas.toDataURL();
+  link.click();
+}
+
+// Redraw card when user types name
+document.getElementById('nameInput').addEventListener('input', () => {
+  if (selectedTemplate) drawCard();
+});
 </script>
+</body>
+</html>
