@@ -88,7 +88,7 @@
 
     function selectTemplate(templateName) {
       selectedTemplate = templateName;
-      drawCard();
+      canvasReady = false; // Reset canvas state
     }
 
     function drawCard() {
@@ -147,8 +147,6 @@ ctx.fillText(name || "اسمك هنا", x, y);
       link.click();
     }
 
-    document.getElementById('nameInput').addEventListener('input', () => {
-      if (selectedTemplate) drawCard();
     });
   </script>
 </body>
