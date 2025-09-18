@@ -106,22 +106,23 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(background, 0, 0);
 
-      ctx.font = "bold 38px 'Amiri', serif";
-      ctx.fillStyle = "#8B5E3C";
-      ctx.textAlign = "center";
-      ctx.direction = "rtl";
+     ctx.font = "bold 38px 'Amiri', serif";
+ctx.fillStyle = "#8B5E3C";
+ctx.textAlign = "center";
+ctx.direction = "rtl";
 
-     // 🎯 Exact Y-position for name inside green box
-     let y = canvas.height - 85; // ← This moves the text up into the green box
+// 🎯 Exact coordinates for each template
+let x = canvas.width / 2;
+let y = 520; // Default Y — adjust based on actual image
 
-    switch (selectedTemplate) {
-    case 'temp1.jpg': y = canvas.height - 85; break;
-    case 'temp2.jpg': y = canvas.height - 88; break;
-    case 'temp3.jpg': y = canvas.height - 86; break;
-    case 'temp4.jpg': y = canvas.height - 87; break;
+switch (selectedTemplate) {
+  case 'temp1.jpg': y = 520; break;
+  case 'temp2.jpg': y = 515; break;
+  case 'temp3.jpg': y = 518; break;
+  case 'temp4.jpg': y = 522; break;
 }
 
-ctx.fillText(name || "اسمك هنا", canvas.width / 2, y);
+ctx.fillText(name || "اسمك هنا", x, y);
         canvasReady = true;
       };
 
