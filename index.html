@@ -64,7 +64,10 @@
 </head>
 <body>
 
-  <h2>شركة العهد للتجارة والمقاولات العامة</h2>
+<div style="text-align: center; margin-bottom: 20px;">
+  <img src="images/logo.png" alt="Logo" style="max-width: 200px;">
+  <h2 style="margin-top: 10px;">شركة الفهد للتجارة والمقاولات</h2>
+</div>
 
   <div class="grid">
     <img src="images/temp1.jpg" alt="Template 1" onclick="selectTemplate('temp1.jpg')">
@@ -75,7 +78,6 @@
 
   <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
 
-  <!-- ✅ This is the missing canvas element -->
   <canvas id="myCanvas"></canvas>
 
   <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
@@ -104,22 +106,22 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(background, 0, 0);
 
-      ctx.font = "bold 38px 'Amiri', serif";
-ctx.fillStyle = "#8B5E3C"; // Gold-brown color to match design
-ctx.textAlign = "center";
-ctx.direction = "rtl";
+        ctx.font = "bold 38px 'Amiri', serif";
+        ctx.fillStyle = "#8B5E3C";
+        ctx.textAlign = "center";
+        ctx.direction = "rtl";
 
-// 🎯 Exact Y-position for the green box
-let y = canvas.height - 35;
+        // ✅ Exact Y-position for name inside green box
+        let y = canvas.height - 65;
 
-switch (selectedTemplate) {
-  case 'temp1.jpg': y = canvas.height - 35; break;
-  case 'temp2.jpg': y = canvas.height - 40; break;
-  case 'temp3.jpg': y = canvas.height - 38; break;
-  case 'temp4.jpg': y = canvas.height - 36; break;
-}
+        switch (selectedTemplate) {
+          case 'temp1.jpg': y = canvas.height - 65; break;
+          case 'temp2.jpg': y = canvas.height - 68; break;
+          case 'temp3.jpg': y = canvas.height - 66; break;
+          case 'temp4.jpg': y = canvas.height - 67; break;
+        }
 
-ctx.fillText(name || "اسمك هنا", canvas.width / 2, y);
+        ctx.fillText(name || "اسمك هنا", canvas.width / 2, y);
         canvasReady = true;
       };
 
