@@ -110,13 +110,13 @@ ctx.textAlign = "center";
 ctx.direction = "rtl";
 
 // 🎯 Precise placement in the green box
-let y = canvas.height - 110; // Adjust this based on your template
+let y = canvas.height - 210; // Adjust this based on your template
 
 switch (selectedTemplate) {
-  case 'temp1.jpg': y = canvas.height - 110; break;
-  case 'temp2.jpg': y = canvas.height - 105; break;
-  case 'temp3.jpg': y = canvas.height - 100; break;
-  case 'temp4.jpg': y = canvas.height - 108; break;
+  case 'temp1.jpg': y = canvas.height - 210; break;
+  case 'temp2.jpg': y = canvas.height - 205; break;
+  case 'temp3.jpg': y = canvas.height - 200; break;
+  case 'temp4.jpg': y = canvas.height - 208; break;
 }
 
 ctx.fillText(name || "اسمك هنا", canvas.width / 2, y);
