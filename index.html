@@ -104,20 +104,19 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(background, 0, 0);
 
-        ctx.font = "bold 36px 'Amiri', serif";
-        ctx.shadowColor = "#000";
-        ctx.shadowBlur = 4;
-        ctx.fillStyle = "#8B5E3C";
-        ctx.textAlign = "center";
-        ctx.direction = "rtl";
-        ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height - 40);
-let y = canvas.height - 50;
+      ctx.font = "bold 36px 'Amiri', serif";
+ctx.fillStyle = "#8B5E3C"; // Match the greeting color
+ctx.textAlign = "center";
+ctx.direction = "rtl";
+
+// 🎯 Precise placement in the green box
+let y = canvas.height - 110; // Adjust this based on your template
 
 switch (selectedTemplate) {
-  case 'temp1.jpg': y = canvas.height - 40; break;
-  case 'temp2.jpg': y = canvas.height - 40; break;
-  case 'temp3.jpg': y = canvas.height - 40; break;
-  case 'temp4.jpg': y = canvas.height - 40; break;
+  case 'temp1.jpg': y = canvas.height - 110; break;
+  case 'temp2.jpg': y = canvas.height - 105; break;
+  case 'temp3.jpg': y = canvas.height - 100; break;
+  case 'temp4.jpg': y = canvas.height - 108; break;
 }
 
 ctx.fillText(name || "اسمك هنا", canvas.width / 2, y);
