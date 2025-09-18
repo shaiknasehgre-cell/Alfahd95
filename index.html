@@ -15,13 +15,13 @@
       color: #333;
       margin-bottom: 10px;
     }
-   .grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px; /* Reduced from 15px */
-  justify-items: center;
-  margin-bottom: 20px;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      justify-items: center;
+      margin-bottom: 20px;
+    }
     .grid img {
       width: 300px;
       height: auto;
@@ -44,6 +44,9 @@
       border: 1px solid #ccc;
       margin-top: 20px;
       max-width: 100%;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
     .download-btn {
       background-color: #28a745;
@@ -61,7 +64,7 @@
 </head>
 <body>
 
-  <h2><img src="images/logo.png" alt="logo" onclick="selectTemplate('logo.png')"></h2>
+  <h2>شركة العهد للتجارة والمقاولات العامة</h2>
 
   <div class="grid">
     <img src="images/temp1.jpg" alt="Template 1" onclick="selectTemplate('temp1.jpg')">
@@ -70,60 +73,70 @@
     <img src="images/temp4.jpg" alt="Template 4" onclick="selectTemplate('temp4.jpg')">
   </div>
 
-   <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
+  <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
+
+  <!-- ✅ This is the missing canvas element -->
+  <canvas id="myCanvas"></canvas>
 
   <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
 
   <script>
- let selectedTemplate = null;
+    let selectedTemplate = null;
+    let canvasReady = false;
 
-function selectTemplate(templateName) {
-  selectedTemplate = templateName;
-  drawCard();
-}
+    function selectTemplate(templateName) {
+      selectedTemplate = templateName;
+      drawCard();
+    }
 
-function drawCard() {
-  if (!selectedTemplate) return;
+    function drawCard() {
+      if (!selectedTemplate) return;
 
-  const canvas = document.getElementById('myCanvas');
-  const ctx = canvas.getContext('2d');
-  const name = document.getElementById('nameInput').value.trim();
+      const canvas = document.getElementById('myCanvas');
+      const ctx = canvas.getContext('2d');
+      const name = document.getElementById('nameInput').value.trim();
 
-  const background = new Image();
-  background.onload = function() {
-    // Match canvas size to image
-    canvas.width = background.width;
-    canvas.height = background.height;
+      const background = new Image();
+      background.onload = function() {
+        canvas.width = background.width;
+        canvas.height = background.height;
 
-    // Draw background image
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(background, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(background, 0, 0);
 
-    // Draw name in greeting area
-    ctx.font = "36px 'Amiri', serif";
-    ctx.fillStyle = "#8B5E3C"; // Custom greeting color
-    ctx.textAlign = "center";
-    ctx.direction = "rtl";
+        ctx.font = "36px 'Amiri', serif";
+        ctx.fillStyle = "#8B5E3C";
+        ctx.textAlign = "center";
+        ctx.direction = "rtl";
+        ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height * 0.72);
 
-    // Adjust position based on your marked area
-    ctx.fillText(name || "اسمك هنا", canvas.width / 2, canvas.height * 0.72);
-  };
+        canvasReady = true;
+      };
 
-  background.src = 'images/' + selectedTemplate;
-}
+      background.onerror = function() {
+        alert("تعذر تحميل الصورة. تأكد من أن المسار صحيح وأن الصورة موجودة.");
+        canvasReady = false;
+      };
 
-function downloadCard() {
-  const canvas = document.getElementById('myCanvas');
-  const link = document.createElement('a');
-  link.download = 'alfahd-card.png';
-  link.href = canvas.toDataURL();
-  link.click();
-}
+      background.src = 'images/' + selectedTemplate;
+    }
 
-// Redraw card when user types name
-document.getElementById('nameInput').addEventListener('input', () => {
-  if (selectedTemplate) drawCard();
-});
-</script>
+    function downloadCard() {
+      if (!canvasReady) {
+        alert("يرجى اختيار النموذج أولاً وانتظار تحميل البطاقة.");
+        return;
+      }
+
+      const canvas = document.getElementById('myCanvas');
+      const link = document.createElement('a');
+      link.download = 'alfahd-card.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    document.getElementById('nameInput').addEventListener('input', () => {
+      if (selectedTemplate) drawCard();
+    });
+  </script>
 </body>
 </html>
