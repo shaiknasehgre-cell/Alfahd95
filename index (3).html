@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>بطاقة الفهد الشخصية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Amiri', serif;
+      background-color: #f0f0f0;
+      text-align: center;
+      padding: 20px;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      justify-items: center;
+      margin-bottom: 20px;
+    }
+    .grid img {
+      width: 300px;
+      height: auto;
+      border: 2px solid #ccc;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .grid img:hover {
+      transform: scale(1.05);
+      border-color: #28a745;
+    }
+    input {
+      padding: 10px;
+      font-size: 18px;
+      margin: 10px;
+      width: 300px;
+      max-width: 90%;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      margin-top: 20px;
+      max-width: 100%;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .download-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 12px 24px;
+      font-size: 18px;
+      margin-top: 30px;
+    }
+    .download-btn:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+<div style="text-align: center; margin-bottom: 20px;">
+  <img src="images/logo.png" alt="Logo" style="max-width: 200px; height: auto;">
+  <h2 style="margin-top: 10px;">شركة الفهد للتجارة والمقاولات</h2>
+</div>
+
+<div class="grid">
+  <img src="images/temp1.jpg" alt="Template 1" onclick="selectTemplate('temp1.jpg')">
+  <img src="images/temp2.jpg" alt="Template 2" onclick="selectTemplate('temp2.jpg')">
+  <img src="images/temp3.jpg" alt="Template 3" onclick="selectTemplate('temp3.jpg')">
+  <img src="images/temp4.jpg" alt="Template 4" onclick="selectTemplate('temp4.jpg')">
+</div>
+
+  <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" />
+
+  <canvas id="myCanvas"></canvas>
+
+  <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
+
+  <script>
+    let selectedTemplate = null;
+    let canvasReady = false;
+
+    function selectTemplate(templateName) {
+      selectedTemplate = templateName;
+      drawCard();
+    }
+
+    function drawCard() {
+      if (!selectedTemplate) return;
+
+      const canvas = document.getElementById('myCanvas');
+      const ctx = canvas.getContext('2d');
+      const name = document.getElementById('nameInput').value.trim();
+
+      const background = new Image();
+      background.onload = function() {
+        canvas.width = background.width;
+        canvas.height = background.height;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(background, 0, 0);
+
+     ctx.font = "bold 38px 'Amiri', serif";
+ctx.fillStyle = "#8B5E3C";
+ctx.textAlign = "center";
+ctx.direction = "rtl";
+
+// 🎯 Exact coordinates for each template
+let x = canvas.width / 2;
+let y = 1655; // Default Y — adjust based on actual image
+
+switch (selectedTemplate) {
+  case 'temp1.jpg': y = 1655; break;
+  case 'temp2.jpg': y = 1645; break;
+  case 'temp3.jpg': y = 1648; break;
+  case 'temp4.jpg': y = 1656; break;
+}
+
+ctx.fillText(name || "اسمك هنا", x, y);
+        canvasReady = true;
+      };
+
+      background.onerror = function() {
+        alert("تعذر تحميل الصورة. تأكد من أن المسار صحيح وأن الصورة موجودة.");
+        canvasReady = false;
+      };
+
+      background.src = 'images/' + selectedTemplate;
+    }
+
+    function downloadCard() {
+      if (!canvasReady) {
+        alert("يرجى اختيار النموذج أولاً وانتظار تحميل البطاقة.");
+        return;
+      }
+
+      const canvas = document.getElementById('myCanvas');
+      const link = document.createElement('a');
+      link.download = 'alfahd-card.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    document.getElementById('nameInput').addEventListener('input', () => {
+      if (selectedTemplate) drawCard();
+    });
+  </script>
+</body>
+</html>
